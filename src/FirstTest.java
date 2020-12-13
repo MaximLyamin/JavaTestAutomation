@@ -117,6 +117,20 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testFieldInputHasText(){
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input by Id",
+                5);
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search…",
+                "Cannot find 'Search...' in field input",
+                5);
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
@@ -150,6 +164,18 @@ public class FirstTest {
     private WebElement waitForElementAndClear(By by, String error_message, long timeoutInSeconds){
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.clear();
+        return element;
+    }
+
+    private WebElement assertElementHasText(By by, String expectedText, String error_message, long timeoutInSeconds){
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+
+        String article_title = element.getAttribute("text");
+
+        Assert.assertEquals(
+                "We see unexpected text!",
+                expectedText,
+                article_title);
         return element;
     }
 }
