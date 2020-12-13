@@ -103,17 +103,11 @@ public class FirstTest {
                 "Cannot find 'Cancel Button' by Id",
                 5);
 
-        WebElement title_element = waitForElementPresent(
+        assertElementHasText(
                 By.id("org.wikipedia:id/view_page_title_text"),
-                "Cannot find article title on page",
-                15);
-
-        String article_title = title_element.getAttribute("text");
-
-        Assert.assertEquals(
-                "We see unexpected title!",
                 "Java (programming language)",
-                article_title
+                "Cannot find article title on page",
+                15
         );
     }
 
