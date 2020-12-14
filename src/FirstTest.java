@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class FirstTest {
 
@@ -125,6 +126,37 @@ public class FirstTest {
                 5);
     }
 
+    @Test
+    public void testCancelSearchResults(){
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input by Id",
+                5);
+
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Cannot find search input",
+                5);
+
+        searchResultHasSomeArticles(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Cannot see some articles",
+                15
+        );
+
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Cannot find search field by Id",
+                5);
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_empty_message"),
+                "Search page does not clear",
+                15
+        );
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
@@ -171,5 +203,12 @@ public class FirstTest {
                 expectedText,
                 article_title);
         return element;
+    }
+
+    private boolean searchResultHasSomeArticles(By by, String error_message, long timeoutInSeconds){
+        List elements = driver.findElements(by);
+
+        Assert.assertTrue(error_message, elements.size() > 1);
+        return true;
     }
 }
