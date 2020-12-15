@@ -157,6 +157,27 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testCheckKeyWordInSearchResults(){
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input by Id",
+                5);
+
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Cannot find search input",
+                5);
+
+        checkKeyWordInEachResult(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Java",
+                "Cannot see keyword in search results",
+                15
+        );
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
@@ -209,6 +230,18 @@ public class FirstTest {
         List elements = driver.findElements(by);
 
         Assert.assertTrue(error_message, elements.size() > 1);
+        return true;
+    }
+
+    private boolean checkKeyWordInEachResult(By by, String keyword, String error_message, long timeoutInSeconds){
+        List elements = driver.findElements(by);
+        List elementsHasKeyWord = driver.findElementsByXPath(
+                "//*[@resource-id='org.wikipedia:id/page_list_item_title' and contains(@text,'" + keyword + "')]");
+
+        int visibleResults = elements.size();
+        int visibleResultsWithKeyWord = elementsHasKeyWord.size();
+
+        Assert.assertTrue(error_message, visibleResults == visibleResultsWithKeyWord);
         return true;
     }
 }
