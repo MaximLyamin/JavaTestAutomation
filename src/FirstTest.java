@@ -100,24 +100,15 @@ public class FirstTest extends CoreTestCase {
     @Test
     public void testSwipeArticle() {
         SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        String search_line = "Java";
+        String substring = "Object-oriented programming language";
 
         SearchPageObject.initSearchInput();
-        SearchPageObject.typeSearchLine("Java");
-
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
-                "Cannot find 'Cancel Button' by Id",
-                5);
-
-        MainPageObject.waitForElementPresent(
-                By.id("org.wikipedia:id/view_page_title_text"),
-                "Cannot find article title",
-                15);
-
-        MainPageObject.swipeUpToElement(
-                By.id("org.wikipedia:id/page_external_link"),
-                "Cannot find the end of the article",
-                20);
+        SearchPageObject.typeSearchLine(search_line);
+        SearchPageObject.clickByArticleWithSubstring(substring);
+        ArticlePageObject.waitForTitleElement();
+        ArticlePageObject.swipeToFooter();
     }
 
     @Test
