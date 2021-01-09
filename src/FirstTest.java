@@ -326,20 +326,20 @@ public class FirstTest extends CoreTestCase {
                 title_in_list);
     }
 
-//    @Test
-//    public void testCheckOpenArticleHasTitle() {
-//        SearchPageObject SearchPageObject = new SearchPageObject(driver);
-//
-//        SearchPageObject.initSearchInput();
-//        SearchPageObject.typeSearchLine("Java");
-//
-//        MainPageObject.waitForElementAndClick(
-//                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
-//                "Cannot find article with 'Object-oriented programming language'",
-//                15);
-//
-//        MainPageObject.assertElementPresent(
-//                By.id("org.wikipedia:id/view_page_title_text"),
-//                "Cannot find article title on open page");
-//    }
+    @Test
+    public void testCheckOpenArticleHasTitle() {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
+
+        MainPageObject.waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+                "Cannot find article with 'Object-oriented programming language'",
+                15);
+
+        MainPageObject.assertElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Cannot find article title on open page");
+    }
 }
