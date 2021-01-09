@@ -3,9 +3,6 @@ import lib.ui.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.ScreenOrientation;
-
-import java.time.Duration;
 
 public class FirstTest extends CoreTestCase {
 
