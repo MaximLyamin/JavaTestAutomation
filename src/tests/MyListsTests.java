@@ -5,7 +5,6 @@ import lib.ui.ArticlePageObject;
 import lib.ui.MyListsPageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class MyListsTests extends CoreTestCase {
@@ -64,7 +63,7 @@ public class MyListsTests extends CoreTestCase {
         MyListsPageObject.openArticleByTitleInSavedList(second_article_title);
         String title_in_open_article = MyListsPageObject.getArticleByTitleXpathInSavedList(second_article_title);
 
-        Assert.assertEquals(
+        assertEquals(
                 "Article have been changed after opening",
                 title_in_open_article,
                 title_in_list);
