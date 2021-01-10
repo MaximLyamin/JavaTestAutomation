@@ -39,7 +39,7 @@ public class ArticlePageObject extends MainPageObject {
                 20);
     }
 
-    public void addArticleToMyList(String name_of_folder) {
+    public void addArticleToMyListFirstTime(String name_of_folder) {
         this.waitForElementAndClick(
                 By.xpath(OPTIONS_BUTTON_XPATH),
                 "Cannot find 'More option' button",
@@ -76,6 +76,29 @@ public class ArticlePageObject extends MainPageObject {
         this.waitForElementAndClick(
                 By.xpath(CLOSE_ARTICLE_BUTTON_XPATH),
                 "Cannot close article, cannot X button",
+                5);
+    }
+
+    public void assertTitleByIdIsPresentOnOpenArticle() {
+        this.assertElementPresent(
+                By.id(TITLE_ID),
+                "Cannot find article title on open page by id " + TITLE_ID);
+    }
+
+    public void addArticleToMyCreatedList(String name_of_folder) {
+        this.waitForElementAndClick(
+                By.xpath(OPTIONS_BUTTON_XPATH),
+                "Cannot find 'More option' button",
+                5);
+
+        this.waitForElementAndClick(
+                By.xpath(OPTIONS_ADD_TO_MY_LIST_BUTTON_XPATH),
+                "Cannot find 'Add to reading list' button",
+                5);
+
+        this.waitForElementAndClick(
+                By.xpath("//*[@text='" + name_of_folder + "']"),
+                "Cannot find created folder",
                 5);
     }
 }

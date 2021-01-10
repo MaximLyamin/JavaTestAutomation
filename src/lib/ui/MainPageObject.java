@@ -78,7 +78,7 @@ public class MainPageObject {
         return true;
     }
 
-    public boolean checkKeyWordInEachResult(By by, String keyword, String error_message, long timeoutInSeconds){
+    public boolean checkKeyWordInEachVisibleResult(By by, String keyword, String error_message, long timeoutInSeconds){
         List elements = driver.findElements(by);
         List elementsHasKeyWord = driver.findElementsByXPath(
                 "//*[@resource-id='org.wikipedia:id/page_list_item_title' and contains(@text,'" + keyword + "')]");

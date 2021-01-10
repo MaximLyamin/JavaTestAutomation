@@ -59,4 +59,17 @@ public class MyListsPageObject extends MainPageObject {
                 "Saved article still present with title " + article_title,
                 5);
     }
+
+    public void openArticleByTitleInSavedList(String article_title) {
+        String article_title_xpath = getSavedArticleXpathByTitle(article_title);
+
+        this.waitForElementAndClick(
+                By.xpath(article_title_xpath),
+                "Cannot find saved article by title " + article_title,
+                5);
+    }
+
+    public String getArticleByTitleXpathInSavedList(String article_title) {
+        return getSavedArticleXpathByTitle(article_title);
+    }
 }

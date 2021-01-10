@@ -12,7 +12,9 @@ public class SearchPageObject extends MainPageObject {
         SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
         SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
         SEARCH_RESULT_ELEMENT_XPATH = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
-        SEARCH_EMPTY_RESULT_ELEMENT_XPATH = "//*[@text='No results found']";
+        SEARCH_EMPTY_RESULT_ELEMENT_XPATH = "//*[@text='No results found']",
+        SEARCH_RESULT_TITLE_ARTICLE_ID = "org.wikipedia:id/page_list_item_title",
+        SEARCH_RESULT_AFTER_CANCEL_ID = "org.wikipedia:id/search_empty_message";
 
     public SearchPageObject(AppiumDriver driver){
         super(driver);
@@ -102,5 +104,27 @@ public class SearchPageObject extends MainPageObject {
         this.assertElementNotPresent(
                 By.xpath(SEARCH_RESULT_ELEMENT_XPATH),
                 "We found some results by request");
+    }
+
+    public void checkKeyWordInVisibleSearchResults(String search_line) {
+        this.checkKeyWordInEachVisibleResult(
+                By.id(SEARCH_RESULT_TITLE_ARTICLE_ID),
+                search_line,
+                "Cannot see keyword " + search_line + " in search results",
+                15);
+    }
+
+    public void assertThereIsSomeResultOfSearch() {
+        this.searchResultHasSomeArticles(
+                By.id(SEARCH_RESULT_TITLE_ARTICLE_ID),
+                "Cannot see some articles",
+                15);
+    }
+
+    public void assertThereUsNoResultOfSearchAfterCancel() {
+        this.waitForElementPresent(
+                By.id(SEARCH_RESULT_AFTER_CANCEL_ID),
+                "Search page does not clear",
+                15);
     }
 }
