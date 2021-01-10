@@ -78,4 +78,19 @@ public class SearchTests extends CoreTestCase {
         SearchPageObject.clickCancelSearch();
         SearchPageObject.assertThereUsNoResultOfSearchAfterCancel();
     }
+
+    @Test
+    public void testSearchArticleWithTitleAndDescription() {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        String search_line = "Java";
+        String substring = "Object-oriented programming language";
+        String title = "Java (programming language)";
+
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine(search_line);
+        SearchPageObject.waitForElementByTitleAndDescription(title, substring);
+        int articles_in_search_result = SearchPageObject.getAmountOfFoundArticles();
+
+        assertTrue("We found too few articles!", articles_in_search_result >= 3);
+    }
 }
