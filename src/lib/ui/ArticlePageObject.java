@@ -94,7 +94,7 @@ abstract public class ArticlePageObject extends MainPageObject {
     public void closeArticle() {
         this.waitForElementAndClick(
                 CLOSE_ARTICLE_BUTTON_XPATH,
-                "Cannot close article, cannot X button",
+                "Cannot close article, cannot find X button",
                 5);
     }
 
