@@ -1,12 +1,14 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.ArticlePageObject;
 import lib.ui.MyListsPageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListsPageObjectFactory;
+import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
@@ -23,14 +25,18 @@ public class MyListsTests extends CoreTestCase {
     public void testSaveFirstArticleToMyList() {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
         MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.clickByArticleWithSubstring(substring_first_article);
         ArticlePageObject.assertCompareArticles(first_article_title);
-        ArticlePageObject.addArticleToMyListFirstTime(name_of_folder);
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addArticleToMyListFirstTime(name_of_folder);
+        } else {
+            ArticlePageObject.addArticlesToMySaved();
+        }
         ArticlePageObject.closeArticle();
         NavigationUI.clickMyList();
         MyListsPageObject.openFolderByName(name_of_folder);
@@ -41,14 +47,18 @@ public class MyListsTests extends CoreTestCase {
     public void testSaveTwoArticlesToMyListThanOneDelete() {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
         MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.clickByArticleWithSubstring(substring_first_article);
         ArticlePageObject.assertCompareArticles(first_article_title);
-        ArticlePageObject.addArticleToMyListFirstTime(name_of_folder);
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addArticleToMyListFirstTime(name_of_folder);
+        } else {
+            ArticlePageObject.addArticlesToMySaved();
+        }
         ArticlePageObject.closeArticle();
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line);
