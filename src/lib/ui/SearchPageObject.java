@@ -137,7 +137,7 @@ abstract public class SearchPageObject extends MainPageObject {
 
     public void assertThereIsSomeResultOfSearch() {
         int elements = this.getAmountOfFoundArticles();
-        Assert.assertTrue("Cannot see any article", elements > 1);
+        Assert.assertTrue("Cannot see less than 3 articles", elements > 2);
     }
 
     public void assertThereNoResultOfSearchAfterCancel() {
