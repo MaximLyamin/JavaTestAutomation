@@ -19,7 +19,7 @@ public class MyListsTests extends CoreTestCase {
     private final static String first_article_title = "Java (programming language)";
     private final static String substring_first_article = "Object-oriented programming language";
     private final static String second_article_title = "JavaScript";
-    private final static String substring_second_article = "Programming language";
+    private final static String substring_second_article = "High-level programming language";
 
     @Test
     public void testSaveFirstArticleToMyList() {
@@ -67,14 +67,28 @@ public class MyListsTests extends CoreTestCase {
             ArticlePageObject.addArticlesToMySaved();
         }
         ArticlePageObject.closeArticle();
+        if (Platform.getInstance().isIOS()){
+            SearchPageObject.clickCancelSearch();
+        }
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.clickByArticleWithSubstring(substring_second_article);
         ArticlePageObject.assertCompareArticles(second_article_title);
-        ArticlePageObject.addArticleToMyCreatedList(name_of_folder);
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addArticleToMyListFirstTime(name_of_folder);
+        } else {
+            ArticlePageObject.addArticlesToMySaved();
+        }
         ArticlePageObject.closeArticle();
+        if (Platform.getInstance().isIOS()){
+            SearchPageObject.clickCancelSearch();
+        }
         NavigationUI.clickMyList();
-        MyListsPageObject.openFolderByName(name_of_folder);
+        if (Platform.getInstance().isAndroid()) {
+            MyListsPageObject.openFolderByName(name_of_folder);
+        } else {
+            MyListsPageObject.clickOnCloseButtonOnPopupWindow();
+        }
         MyListsPageObject.swipeByArticleToDelete(first_article_title);
         MyListsPageObject.waitForArticleToAppearByTitle(second_article_title);
         String title_in_list = MyListsPageObject.getArticleByTitleXpathInSavedList(second_article_title);

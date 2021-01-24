@@ -7,7 +7,7 @@ public class iOSArticlePageObject extends ArticlePageObject {
 
     static {
         TITLE = "id:Java (programming language)";
-        TITLE_XPATH = "xpath://XCUIElementTypeStaticText[contains(@name,'Java (programming language)')]";
+        TITLE_XPATH = "xpath://XCUIElementTypeStaticText[contains(@name,'Java (programming language)') or contains(@name, 'JavaScript')]";
         FOOTER_ELEMENT_ID = "id:View article in browser";
         //OPTIONS_BUTTON_XPATH = "xpath://android.widget.ImageView[@content-desc='More options']";
         OPTIONS_ADD_TO_MY_LIST_BUTTON_XPATH = "id:Save for later";
