@@ -103,7 +103,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     public void assertCompareSearchInputText(String expected_text) {
-        this.assertElementHasText(SEARCH_INPUT_ID, expected_text, "We see unexpected title", 15);
+            this.assertElementHasText(SEARCH_INPUT_ID, expected_text, "We see unexpected title", 15);
     }
 
     public int getAmountOfFoundArticles() {

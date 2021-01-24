@@ -31,17 +31,21 @@ public class MyListsTests extends CoreTestCase {
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.clickByArticleWithSubstring(substring_first_article);
-        //ArticlePageObject.assertCompareArticles(first_article_title);
+        ArticlePageObject.assertCompareArticles(first_article_title);
         if (Platform.getInstance().isAndroid()) {
             ArticlePageObject.addArticleToMyListFirstTime(name_of_folder);
         } else {
             ArticlePageObject.addArticlesToMySaved();
         }
         ArticlePageObject.closeArticle();
+        if (Platform.getInstance().isIOS()){
+            SearchPageObject.clickCancelSearch();
+        }
         NavigationUI.clickMyList();
-
         if (Platform.getInstance().isAndroid()) {
             MyListsPageObject.openFolderByName(name_of_folder);
+        } else {
+            MyListsPageObject.clickOnCloseButtonOnPopupWindow();
         }
         MyListsPageObject.swipeByArticleToDelete(first_article_title);
     }

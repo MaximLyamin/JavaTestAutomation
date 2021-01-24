@@ -8,6 +8,7 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     protected static String
             TITLE,
+            TITLE_XPATH,
             FOOTER_ELEMENT_ID,
             OPTIONS_BUTTON_XPATH,
             OPTIONS_ADD_TO_MY_LIST_BUTTON_XPATH,
@@ -34,7 +35,11 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
 
     public void assertCompareArticles(String expected_text) {
-        this.assertElementHasText(TITLE, expected_text, "We see unexpected title", 15);
+        if (Platform.getInstance().isAndroid()) {
+            this.assertElementHasText(TITLE, expected_text, "We see unexpected title", 15);
+        } else {
+            this.assertElementHasText(TITLE_XPATH, expected_text, "We see unexpected title", 15);
+        }
     }
 
     public void swipeToFooter() {

@@ -7,7 +7,8 @@ abstract public class MyListsPageObject extends MainPageObject {
 
     protected static String
             FOLDER_BY_NAME_XPATH_TPL,
-            ARTICLE_BY_TITLE_XPATH_TPL;
+            ARTICLE_BY_TITLE_XPATH_TPL,
+            CLOSE_BUTTON_POPUP_WINDOW;
 
     public MyListsPageObject(AppiumDriver driver) {
         super(driver);
@@ -74,5 +75,12 @@ abstract public class MyListsPageObject extends MainPageObject {
 
     public String getArticleByTitleXpathInSavedList(String article_title) {
         return getSavedArticleXpathByTitle(article_title);
+    }
+
+    public void clickOnCloseButtonOnPopupWindow()
+    {
+        this.waitForElementAndClick(CLOSE_BUTTON_POPUP_WINDOW,
+                "Cannot find and click x button on sync popup",
+                5);
     }
 }
