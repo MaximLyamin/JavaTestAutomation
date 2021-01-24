@@ -1,20 +1,23 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
+import org.junit.Assert;
 
-public class SearchPageObject extends MainPageObject {
+abstract public class SearchPageObject extends MainPageObject {
 
-    private static final String
-        SEARCH_INIT_ELEMENT = "xpath://*[contains(@text,'Search Wikipedia')]",
-        SEARCH_INPUT = "xpath://*[contains(@text,'Search…')]",
-        SEARCH_INPUT_ID = "id:org.wikipedia:id/search_src_text",
-        SEARCH_CANCEL_BUTTON = "id:org.wikipedia:id/search_close_btn",
-        SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
-        SEARCH_RESULT_BY_TITLE_AND_SUBSTRING_TPL = "xpath://*[@text='{TITLE}']/following-sibling::*[@text='{SUBSTRING}']",
-        SEARCH_RESULT_ELEMENT_XPATH = "xpath://*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
-        SEARCH_EMPTY_RESULT_ELEMENT_XPATH = "xpath://*[@text='No results found']",
-        SEARCH_RESULT_TITLE_ARTICLE_ID = "id:org.wikipedia:id/page_list_item_title",
-        SEARCH_RESULT_AFTER_CANCEL_ID = "id:org.wikipedia:id/search_empty_message";
+    protected static String
+        SEARCH_INIT_ELEMENT,
+        SEARCH_INPUT,
+        SEARCH_INPUT_ID,
+        SEARCH_CANCEL_BUTTON,
+        SEARCH_CLEAR_BUTTON,
+        SEARCH_RESULT_BY_SUBSTRING_TPL,
+        SEARCH_RESULT_BY_TITLE_AND_SUBSTRING_TPL,
+        SEARCH_RESULT_ELEMENT_XPATH,
+        SEARCH_EMPTY_RESULT_ELEMENT_XPATH,
+        SEARCH_RESULT_TITLE_ARTICLE,
+        SEARCH_RESULT_AFTER_CANCEL_ID;
 
     public SearchPageObject(AppiumDriver driver){
         super(driver);
@@ -55,11 +58,25 @@ public class SearchPageObject extends MainPageObject {
                 5);
     }
 
+    public void clickClearSearch() {
+        if (Platform.getInstance().isAndroid()) {
+            this.waitForElementAndClick(
+                    SEARCH_CANCEL_BUTTON,
+                    "Cannot find and click search cancel button",
+                    5);
+        } else {
+            this.waitForElementAndClick(
+                    SEARCH_CLEAR_BUTTON,
+                    "Cannot find and click search clear button",
+                    5);
+        }
+    }
+
     public void clickCancelSearch() {
-        this.waitForElementAndClick(
-                SEARCH_CANCEL_BUTTON,
-                "Cannot find and click search cancel button",
-                5);
+            this.waitForElementAndClick(
+                    SEARCH_CANCEL_BUTTON,
+                    "Cannot find and click search cancel button",
+                    5);
     }
 
     public void typeSearchLine(String search_line){
@@ -112,20 +129,18 @@ public class SearchPageObject extends MainPageObject {
 
     public void checkKeyWordInVisibleSearchResults(String search_line) {
         this.checkKeyWordInEachVisibleResult(
-                SEARCH_RESULT_TITLE_ARTICLE_ID,
+                SEARCH_RESULT_TITLE_ARTICLE,
                 search_line,
                 "Cannot see keyword " + search_line + " in search results",
                 15);
     }
 
     public void assertThereIsSomeResultOfSearch() {
-        this.searchResultHasSomeArticles(
-                SEARCH_RESULT_TITLE_ARTICLE_ID,
-                "Cannot see some articles",
-                15);
+        int elements = this.getAmountOfFoundArticles();
+        Assert.assertTrue("Cannot see any article", elements > 1);
     }
 
-    public void assertThereUsNoResultOfSearchAfterCancel() {
+    public void assertThereNoResultOfSearchAfterCancel() {
         this.waitForElementPresent(
                 SEARCH_RESULT_AFTER_CANCEL_ID,
                 "Search page does not clear",

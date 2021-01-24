@@ -1,41 +1,54 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.openqa.selenium.WebElement;
 
-public class ArticlePageObject extends MainPageObject {
+abstract public class ArticlePageObject extends MainPageObject {
 
-    private static final String
-        TITLE_ID = "id:org.wikipedia:id/view_page_title_text",
-        FOOTER_ELEMENT_ID = "id:org.wikipedia:id/page_external_link",
-        OPTIONS_BUTTON_XPATH = "xpath://android.widget.ImageView[@content-desc='More options']",
-        OPTIONS_ADD_TO_MY_LIST_BUTTON_XPATH = "xpath://android.widget.LinearLayout[3]",
-        ADD_TO_MY_LIST_OVERLAY_ID = "id:org.wikipedia:id/onboarding_button",
-        MY_LIST_NAME_INPUT_ID = "id:org.wikipedia:id/text_input",
-        MY_LIST_OK_BUTTON_XPATH = "xpath://*[@text='OK']",
-        CLOSE_ARTICLE_BUTTON_XPATH = "xpath://android.widget.ImageButton[@content-desc='Navigate up']";
+    protected static String
+            TITLE,
+            FOOTER_ELEMENT_ID,
+            OPTIONS_BUTTON_XPATH,
+            OPTIONS_ADD_TO_MY_LIST_BUTTON_XPATH,
+            ADD_TO_MY_LIST_OVERLAY_ID,
+            MY_LIST_NAME_INPUT_ID,
+            MY_LIST_OK_BUTTON_XPATH,
+            CLOSE_ARTICLE_BUTTON_XPATH;
 
     public ArticlePageObject(AppiumDriver driver) {
         super(driver);
     }
 
     public WebElement waitForTitleElement() {
-        return this.waitForElementPresent(TITLE_ID, "Cannot find article title on page!", 15);
+        return this.waitForElementPresent(TITLE, "Cannot find article title on page!", 15);
     }
 
     public String getArticleTitle() {
-        return this.waitForElementAndGetAttribute(TITLE_ID, "text", "Cannot find article title on page!", 15);
+
+        if (Platform.getInstance().isAndroid()) {
+            return this.waitForElementAndGetAttribute(TITLE, "text", "Cannot find article title on page!", 15);
+        } else {
+            return this.waitForElementAndGetAttribute(TITLE, "name", "Cannot find article title on page!", 15);
+        }
     }
 
     public void assertCompareArticles(String expected_text) {
-        this.assertElementHasText(TITLE_ID, expected_text, "We see unexpected title", 15);
+        this.assertElementHasText(TITLE, expected_text, "We see unexpected title", 15);
     }
 
     public void swipeToFooter() {
-        this.swipeUpToElement(
-                FOOTER_ELEMENT_ID,
-                "",
-                20);
+        if(Platform.getInstance().isAndroid()) {
+            this.swipeUpToElement(
+                    FOOTER_ELEMENT_ID,
+                    "Cannot find end of article",
+                    40);
+        } else {
+            this.swipeUpTillElementAppear(
+                    FOOTER_ELEMENT_ID,
+                    "Cannot find end of article",
+                    40);
+        }
     }
 
     public void addArticleToMyListFirstTime(String name_of_folder) {
@@ -80,8 +93,8 @@ public class ArticlePageObject extends MainPageObject {
 
     public void assertTitleByIdIsPresentOnOpenArticle() {
         this.assertElementPresent(
-                TITLE_ID,
-                "Cannot find article title on open page by id " + TITLE_ID);
+                TITLE,
+                "Cannot find article title on open page by id " + TITLE);
     }
 
     public void addArticleToMyCreatedList(String name_of_folder) {

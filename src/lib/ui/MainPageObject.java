@@ -4,6 +4,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
+import lib.Platform;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -19,7 +20,7 @@ public class MainPageObject {
 
     protected AppiumDriver driver;
 
-    public MainPageObject(AppiumDriver driver){
+    public MainPageObject(AppiumDriver driver) {
         this.driver = driver;
     }
 
@@ -36,19 +37,19 @@ public class MainPageObject {
         return waitForElementPresent(locator, error_message, 5);
     }
 
-    public WebElement waitForElementAndClick(String locator, String error_message, long timeoutInSeconds){
+    public WebElement waitForElementAndClick(String locator, String error_message, long timeoutInSeconds) {
         WebElement element = waitForElementPresent(locator, error_message, timeoutInSeconds);
         element.click();
         return element;
     }
 
-    public WebElement waitForElementAndSendKeys(String locator, String value, String error_message, long timeoutInSeconds){
+    public WebElement waitForElementAndSendKeys(String locator, String value, String error_message, long timeoutInSeconds) {
         WebElement element = waitForElementPresent(locator, error_message, timeoutInSeconds);
         element.sendKeys(value);
         return element;
     }
 
-    public boolean waitForElementNotPresent(String locator, String error_message, long timeoutInSeconds){
+    public boolean waitForElementNotPresent(String locator, String error_message, long timeoutInSeconds) {
         By by = this.getLocatorByString(locator);
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
@@ -56,29 +57,28 @@ public class MainPageObject {
                 ExpectedConditions.invisibilityOfElementLocated(by));
     }
 
-    public WebElement waitForElementAndClear(String locator, String error_message, long timeoutInSeconds){
+    public WebElement waitForElementAndClear(String locator, String error_message, long timeoutInSeconds) {
         WebElement element = waitForElementPresent(locator, error_message, timeoutInSeconds);
         element.clear();
         return element;
     }
 
-    public WebElement assertElementHasText(String locator, String expectedText, String error_message, long timeoutInSeconds){
+    public String getElementTextOrNameAttribute(String locator, String error_message, long timeoutInSeconds) {
         WebElement element = waitForElementPresent(locator, error_message, timeoutInSeconds);
 
-        String article_title = element.getAttribute("text");
-
-        Assert.assertEquals(
-                "We see unexpected text!",
-                expectedText,
-                article_title);
-        return element;
+        if (Platform.getInstance().isAndroid()) {
+            return element.getAttribute("text");
+        } else {
+            return element.getAttribute("name");
+        }
     }
 
-    public boolean searchResultHasSomeArticles(String locator, String error_message, long timeoutInSeconds){
-        By by = this.getLocatorByString(locator);
-        List elements = driver.findElements(by);
+    public boolean assertElementHasText(String locator, String expectedText, String error_message, long timeoutInSeconds){
+        String actual_result = getElementTextOrNameAttribute(locator, error_message, timeoutInSeconds);
 
-        Assert.assertTrue(error_message, elements.size() > 1);
+        Assert.assertTrue(
+                "We see unexpected text!",
+                actual_result.contains(expectedText));
         return true;
     }
 
@@ -130,6 +130,26 @@ public class MainPageObject {
             swipeUpQuick();
             ++already_swiped;
         }
+    }
+
+    public void swipeUpTillElementAppear(String locator, String error_message, int max_swipes) {
+        int already_swiped = 0;
+
+        while (!this.isElementLocatedOnTheScreen(locator)) {
+            if (already_swiped > max_swipes) {
+                Assert.assertTrue(error_message, this.isElementLocatedOnTheScreen(locator));
+            }
+            swipeUpQuick();
+            ++already_swiped;
+        }
+    }
+
+    public boolean isElementLocatedOnTheScreen(String locator) {
+        int element_location_by_y = this.waitForElementPresent(locator, "Cannot find element by locator", 1)
+                .getLocation()
+                .getY();
+        int screen_size_by_y = driver.manage().window().getSize().getHeight();
+        return element_location_by_y < screen_size_by_y;
     }
 
     public void swipeElementToLeft(String locator, String error_message){

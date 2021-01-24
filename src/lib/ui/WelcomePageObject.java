@@ -14,6 +14,7 @@ public class WelcomePageObject extends MainPageObject {
             STEP_ADD_OR_EDIT_PREFERRED_LANG_LINK = "id:Add or edit preferred languages",
             STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK = "id:Learn more about data collected",
             NEXT_LINK = "id:Next",
+            SKIP_BUTTON = "id:Skip",
             GET_STARTED_BUTTON = "id:Get started";
 
     public void waitForLearnMoreLink() {
@@ -56,5 +57,9 @@ public class WelcomePageObject extends MainPageObject {
                 GET_STARTED_BUTTON,
                 "Cannot find and click 'Get started' button",
                 5);
+    }
+
+    public void clickSkip() {
+        this.waitForElementAndClick(SKIP_BUTTON, "Cannot find and click 'skip button'", 5);
     }
 }

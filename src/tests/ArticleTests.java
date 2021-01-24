@@ -3,13 +3,15 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class ArticleTests extends CoreTestCase {
     @Test
     public void testCompareArticles() {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         String expected_title = "Java (programming language)";
 
         SearchPageObject.initSearchInput();
@@ -20,8 +22,8 @@ public class ArticleTests extends CoreTestCase {
 
     @Test
     public void testSwipeArticle() {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         String search_line = "Java";
         String substring = "Object-oriented programming language";
 
@@ -34,8 +36,8 @@ public class ArticleTests extends CoreTestCase {
 
     @Test
     public void testCheckOpenArticleHasTitle() {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         String search_line = "Java";
         String substring = "Object-oriented programming language";
 
