@@ -8,12 +8,14 @@ import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class ChangeAppConditionTests extends CoreTestCase {
+
+    private final static String search_line = "Java";
+    private final static String substring = "Object-oriented programming language";
+
     @Test
     public void testChangeOrientationOnSearchResults() {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        String search_line = "Java";
-        String substring = "Object-oriented programming language";
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line);
@@ -39,8 +41,6 @@ public class ChangeAppConditionTests extends CoreTestCase {
     @Test
     public void testCheckSearchArticleInBackground() {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
-        String search_line = "Java";
-        String substring = "Object-oriented programming language";
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line);

@@ -6,12 +6,15 @@ import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class SearchTests extends CoreTestCase {
+
+    private final static String search_line = "Java";
+
     @Test
     public void testSearch() {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
 
         SearchPageObject.initSearchInput();
-        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.waitForSearchResult("Object-oriented programming language");
     }
 
@@ -60,8 +63,7 @@ public class SearchTests extends CoreTestCase {
 
     @Test
     public void testCheckKeyWordInSearchResults() {
-        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
-        String search_line = "Java";
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line);
@@ -70,8 +72,7 @@ public class SearchTests extends CoreTestCase {
 
     @Test
     public void testCancelSearchResults() {
-        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
-        String search_line = "Java";
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line);
@@ -82,8 +83,7 @@ public class SearchTests extends CoreTestCase {
 
     @Test
     public void testSearchArticleWithTitleAndDescription() {
-        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
-        String search_line = "Java";
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         String substring = "Object-oriented programming language";
         String title = "Java (programming language)";
 

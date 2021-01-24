@@ -11,26 +11,30 @@ import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class MyListsTests extends CoreTestCase {
+
+    private final static String search_line = "Java";
+    private final static String name_of_folder = "Learning programming";
+    private final static String first_article_title = "Java (programming language)";
+    private final static String substring_first_article = "Object-oriented programming language";
+    private final static String second_article_title = "JavaScript";
+    private final static String substring_second_article = "Programming language";
+
     @Test
     public void testSaveFirstArticleToMyList() {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         NavigationUI NavigationUI = new NavigationUI(driver);
         MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
-        String search_line = "Java";
-        String article_title = "Java (programming language)";
-        String substring = "Object-oriented programming language";
-        String name_of_folder = "Learning programming";
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line);
-        SearchPageObject.clickByArticleWithSubstring(substring);
-        ArticlePageObject.assertCompareArticles(article_title);
+        SearchPageObject.clickByArticleWithSubstring(substring_first_article);
+        ArticlePageObject.assertCompareArticles(first_article_title);
         ArticlePageObject.addArticleToMyListFirstTime(name_of_folder);
         ArticlePageObject.closeArticle();
         NavigationUI.clickMyList();
         MyListsPageObject.openFolderByName(name_of_folder);
-        MyListsPageObject.swipeByArticleToDelete(article_title);
+        MyListsPageObject.swipeByArticleToDelete(first_article_title);
     }
 
     @Test
@@ -39,12 +43,6 @@ public class MyListsTests extends CoreTestCase {
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         NavigationUI NavigationUI = new NavigationUI(driver);
         MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
-        String search_line = "Java";
-        String first_article_title = "Java (programming language)";
-        String substring_first_article = "Object-oriented programming language";
-        String name_of_folder = "Learning programming";
-        String second_article_title = "JavaScript";
-        String substring_second_article = "Programming language";
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line);
